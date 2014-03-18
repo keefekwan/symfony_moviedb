@@ -1,0 +1,7 @@
+parameters:
+#    general_moviedb.example.class: General\MoviedbBundle\Example
+
+services:
+#    general_moviedb.example:
+#        class: %general_moviedb.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

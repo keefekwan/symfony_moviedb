@@ -1,0 +1,22 @@
+{# src/General/MoviedbBundle/Resources/views/Default/new.html.twig #}
+{% extends 'GeneralMoviedbBundle::layout.html.twig' %}
+
+{% block title "Add movie" %}
+    {% block content %}
+        <h1>Add movie to database</h1>
+        <form action="{{ path('general_moviedb_create') }}" method="POST" {{ form_enctype(form) }}>
+            {#{{ form_widget(form, {'form_type': 'horizontal'}) }}#}
+
+            {{ form_row(form.title) }}
+            {{ form_row(form.released) }}
+            {{ form_row(form.genre) }}
+            {{ form_row(form.synopsis) }}
+
+            <div class="control-group">
+                <div class="controls">
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </div>
+            </div>
+            {{ form_end(form) }}
+        {#</form>#}
+    {% endblock %}

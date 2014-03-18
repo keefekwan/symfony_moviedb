@@ -1,0 +1,22 @@
+{# src/General/MoviedbBundle/Resources/views/Default/edit.html.twig #}
+{% extends 'GeneralMoviedbBundle::layout.html.twig' %}
+
+{% block title "Edit movie" %}
+    {% block content %}
+        <h1>Add movie to database</h1>
+        <form action="{{ path('general_moviedb_update', {'id': entity.id }) }}" method="POST" {{ form_enctype(edit_form) }}>
+            {#{{ form_widget(form, {'form_type': 'horizontal'}) }}#}
+
+            {{ form_row(edit_form.title) }}
+            {{ form_row(edit_form.released) }}
+            {{ form_row(edit_form.genre) }}
+            {{ form_row(edit_form.synopsis) }}
+
+            <div class="control-group">
+                <div class="controls">
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </div>
+            </div>
+            {{ form_end(edit_form) }}
+        {#</form>#}
+    {% endblock %}

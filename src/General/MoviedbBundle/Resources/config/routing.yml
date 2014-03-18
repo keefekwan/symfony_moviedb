@@ -1,0 +1,23 @@
+general_moviedb_homepage:
+    path:  /
+    defaults: { _controller: GeneralMoviedbBundle:Default:index }
+
+general_moviedb_create:
+    path: /create
+    defaults: { _controller: GeneralMoviedbBundle:Default:create }
+
+general_moviedb_edit:
+    path: /{id}/edit
+    defaults: { _controller: GeneralMoviedbBundle:Default:edit }
+
+general_moviedb_update:
+    path: /{id}/update
+    defaults: { _controller: GeneralMoviedbBundle:Default:update }
+
+general_moviedb_delete:
+    path: /{id}/delete
+    defaults: { _controller: GeneralMoviedbBundle:Default:delete }
+
+general_moviedb_search:
+    path: /search
+    defaults: { _controller: GeneralMoviedbBundle:Default:search }

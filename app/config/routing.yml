@@ -1,0 +1,4 @@
+general_moviedb:
+    resource: "@GeneralMoviedbBundle/Resources/config/routing.yml"
+    prefix:   /
+
