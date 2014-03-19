@@ -23,5 +23,4 @@ class MovieRepository extends EntityRepository
         return $qb->getQuery()
             ->getResult();
     }
-
 }

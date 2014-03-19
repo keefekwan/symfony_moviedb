@@ -19,5 +19,5 @@ general_moviedb_delete:
     defaults: { _controller: GeneralMoviedbBundle:Default:delete }
 
 general_moviedb_search:
-    path: /search
-    defaults: { _controller: GeneralMoviedbBundle:Default:search }
+    path: /search/{name}
+    defaults: { _controller: GeneralMoviedbBundle:Default:search, name: search }

@@ -10,21 +10,39 @@ use General\MoviedbBundle\Form\MovieType;
 
 class DefaultController extends Controller
 {
-    public function indexAction()
+    public function indexAction(Request $request)
     {
+        // List all results and paginate with KNP
         $em = $this->getDoctrine()->getManager();
-        $movies = $em->getRepository('GeneralMoviedbBundle:Movie')
+        $movie = $em->getRepository('GeneralMoviedbBundle:Movie')
             ->getMovies();
 
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
-            $movies, $this->get('request')->query->get('page', 1), 5
+            $movie, $this->get('request')->query->get('page', 1), 5
         );
 
+        // Search functionality should be moved to repository
+        $results = null;
+        $query = $request->query->get('q');
+
+        if (!empty($query)) {
+            $em = $this->getDoctrine()->getManager();
+
+            $results = $em->createQueryBuilder()
+                ->from('GeneralMoviedbBundle:Movie', 'm')
+                ->select('m')
+                ->where('m.title LIKE :search')
+                ->setParameter(':search', "%${query}%")
+                ->getQuery()
+                ->getResult();
+        }
 
         return $this->render('GeneralMoviedbBundle:Default:index.html.twig', array(
-            'movies' => $movies,
+            'movie' => $movie,
             'pagination' => $pagination,
+            'query' => $query,
+            'results' => $results,
         ));
     }
 
@@ -101,7 +119,7 @@ class DefaultController extends Controller
         ));
     }
 
-    public function deleteAction(Request $request,$id)
+    public function deleteAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -119,21 +137,24 @@ class DefaultController extends Controller
 
     public function searchAction(Request $request)
     {
-        $data = $request->get->all();
-        $repo = $this->getDoctrine()->getRepository('GeneralMoviedbBundle:Movie');
+        $results = null;
+        $query = $request->query->get('q');
 
-        $query = $repo->createQueryBuilder('m')
-            ->where('m.title LIKE :title')
-            ->setParamter('title', '%' . $data['search'] . '%')
-            ->getQuery();
+        if (!empty($query)) {
+            $em = $this->getDoctrine()->getManager();
 
-        $paginator = $this->get('knp_paginator');
-        $pagination = $paginator->paginate(
-            $query->getResults(),
-            $this->request->get('page', 1), 4
-        );
-        return $this->render('GeneralMoviedbBundle:Default:index.html.twig', array(
-            'pagination' => $pagination,
+            $results = $em->createQueryBuilder()
+                ->from('GeneralMoviedbBundle:Movie', 'm')
+                ->select('m')
+                ->where('m.title LIKE :search')
+                ->setParameter(':search', "%${query}%")
+                ->getQuery()
+                ->getResult();
+        }
+
+        return $this->render('GeneralMoviedbBundle:Default:list.html.twig', array(
+        'query' => $query,
+        'results' => $results,
         ));
     }
 }
